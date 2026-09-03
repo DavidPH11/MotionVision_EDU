@@ -306,6 +306,14 @@
   </div>
 
   <script>
+    /* 0. INSTANCIACIÓN DE AUDIOS */
+    const sndStarted = new Audio('started.mp3');
+    const sndTransicion = new Audio('transicion.mp3');
+    const sndClick = new Audio('click.mp3');
+
+    // Reproducir 'started.mp3' desde el inicio con la supernova
+    sndStarted.play().catch(() => {});
+
     /* 1. SEGUIMIENTO DEL CURSOR PARA LA AURORA AZUL */
     const auroraGlow = document.getElementById('aurora-glow');
     window.addEventListener('mousemove', (e) => {
@@ -537,6 +545,19 @@
         if (supernova.alpha <= 0) {
           supernova.active = false;
           landingScreen.classList.add('visible');
+
+          // CORTAR SUPERNOVA Y REPRODUCIR TRANSICIÓN HACIA LANDING
+          sndStarted.pause();
+          sndStarted.currentTime = 0;
+
+          sndTransicion.currentTime = 0;
+          sndTransicion.play().catch(() => {});
+          
+          // Detener sonido de transición cuando termine la animación de entrada del landing (1.2s)
+          setTimeout(() => {
+            sndTransicion.pause();
+            sndTransicion.currentTime = 0;
+          }, 1200);
         }
       }
 
@@ -573,13 +594,26 @@
     }
     renderCosmos();
 
+    /* ACCIÓN DE BOTÓN GET STARTED CON SONIDOS */
     getStartedBtn.addEventListener('click', () => {
+      // 1. Sonido de clic
+      sndClick.currentTime = 0;
+      sndClick.play().catch(() => {});
+
       landingScreen.style.transition = 'opacity 0.8s ease-out';
       landingScreen.style.opacity = '0';
+
+      // 2. Sonido de transición durante el cambio
+      sndTransicion.currentTime = 0;
+      sndTransicion.play().catch(() => {});
 
       setTimeout(() => {
         landingScreen.style.display = 'none';
         appContent.classList.add('visible');
+
+        // Cortar el sonido de transición exactamente cuando completa los 0.8s de cambio
+        sndTransicion.pause();
+        sndTransicion.currentTime = 0;
       }, 800);
     });
 
@@ -836,65 +870,64 @@
 
       if (records.length < 2) return;
 
-      const maxT = Math.max(5, records[records.length - 1].t);
-      const maxV = Math.max(100, ...records.map(r => r.speed));
+      const scale = Number(scaleInput.value) || 0;
+      const maxT = Math.max(...records.map(r => r.t), 1);
+      const maxV = Math.max(...records.map(r => r.speed * (scale || 1)), 10);
 
       cctx.beginPath();
       cctx.strokeStyle = '#00f0ff';
       cctx.lineWidth = 2;
 
       records.forEach((r, idx) => {
-        const x = (r.t / maxT) * w;
-        const y = h - (r.speed / maxV) * (h - 20) - 10;
+        const x = (r.t / maxT) * (w - 20) + 10;
+        const val = r.speed * (scale || 1);
+        const y = h - ((val / maxV) * (h - 20) + 10);
         if (idx === 0) cctx.moveTo(x, y);
         else cctx.lineTo(x, y);
       });
-
       cctx.stroke();
     }
 
-    function loop(timestamp) {
+    function loop(now) {
       if (!cameraOn) return;
 
       drawMirrored(pctx, processCanvas);
       drawMirrored(vctx, view);
 
-      const pt = findTarget();
+      const found = findTarget();
+      if (found) {
+        const scaleX = view.width / processCanvas.width;
+        const scaleY = view.height / processCanvas.height;
+        trackingPoint = { x: found.x * scaleX, y: found.y * scaleY };
 
-      if (pt) {
-        const vx = pt.x * (view.width / processCanvas.width);
-        const vy = pt.y * (view.height / processCanvas.height);
-        trackingPoint = { x: vx, y: vy };
+        if (experimentRunning) {
+          trail.push({ ...trackingPoint });
+          if (trail.length > 80) trail.shift();
+        }
 
-        trail.push({ x: vx, y: vy });
-        if (trail.length > 50) trail.shift();
+        sample(trackingPoint, now);
 
-        sample({ x: vx, y: vy }, timestamp);
-      } else {
-        trackingPoint = null;
+        vctx.beginPath();
+        vctx.arc(trackingPoint.x, trackingPoint.y, 14, 0, Math.PI * 2);
+        vctx.strokeStyle = '#00f0ff';
+        vctx.lineWidth = 3;
+        vctx.stroke();
+
+        vctx.beginPath();
+        vctx.arc(trackingPoint.x, trackingPoint.y, 4, 0, Math.PI * 2);
+        vctx.fillStyle = '#ffffff';
+        vctx.fill();
       }
 
       if (trail.length > 1) {
         vctx.beginPath();
-        vctx.strokeStyle = '#00f0ff';
+        vctx.moveTo(trail[0].x, trail[0].y);
+        for (let i = 1; i < trail.length; i++) {
+          vctx.lineTo(trail[i].x, trail[i].y);
+        }
+        vctx.strokeStyle = 'rgba(0, 240, 255, 0.7)';
         vctx.lineWidth = 4;
-        vctx.shadowColor = '#00f0ff';
-        vctx.shadowBlur = 10;
-        trail.forEach((p, idx) => {
-          if (idx === 0) vctx.moveTo(p.x, p.y);
-          else vctx.lineTo(p.x, p.y);
-        });
-        vctx.stroke();
-        vctx.shadowBlur = 0;
-      }
-
-      if (trackingPoint) {
-        vctx.beginPath();
-        vctx.arc(trackingPoint.x, trackingPoint.y, 10, 0, Math.PI * 2);
-        vctx.fillStyle = '#00f0ff';
-        vctx.fill();
-        vctx.lineWidth = 2;
-        vctx.strokeStyle = '#ffffff';
+        vctx.lineCap = 'round';
         vctx.stroke();
       }
 
