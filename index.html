@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Motion Vision EDU</title>
-<link rel="icon" type="image/svg+xml" href="gemini-svg.svg">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300f0ff' stroke-width='2'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M12 6v6l4 2'/%3E%3C/svg%3E">
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,8 +30,6 @@ body{
   pointer-events:none;z-index:2;transform:translate(-50%,-50%);
   transition:transform .05s ease-out;mix-blend-mode:screen
 }
-
-/* LANDING */
 #landing-screen{
   position:fixed;inset:0;z-index:20;opacity:0;
   transition:opacity 1.2s ease-in-out;pointer-events:none
@@ -77,8 +75,6 @@ body{
   margin-right:8px;vertical-align:middle
 }
 @keyframes spin{to{transform:rotate(360deg)}}
-
-/* APP */
 #app-content{
   position:relative;z-index:10;opacity:0;display:none;
   transition:opacity 1s ease-in-out;
@@ -185,7 +181,6 @@ input[type=number],select{
   margin-right:6px;background:var(--danger)
 }
 .dot.ok{background:var(--ok);box-shadow:0 0 8px var(--ok)}
-
 @media(max-width:900px){
   .grid-app{grid-template-columns:1fr}
   .side{display:grid;grid-template-columns:1fr 1fr}
@@ -204,48 +199,38 @@ input[type=number],select{
 <canvas id="cosmic-bg"></canvas>
 <div id="aurora-glow"></div>
 
-<!-- ==================== LANDING ==================== -->
+<!-- LANDING -->
 <div id="landing-screen" class="w-screen h-screen flex items-center justify-center text-white selection:bg-cyan-500 selection:text-black overflow-hidden">
-
   <div class="absolute inset-0 w-full h-full overflow-hidden z-0 video-wrapper">
-    <video autoplay loop muted playsinline preload="auto"
-      class="w-full h-full object-cover object-center scale-105 opacity-95">
+    <video autoplay loop muted playsinline preload="auto" class="w-full h-full object-cover object-center scale-105 opacity-95">
       <source src="https://strvid.nyc3.cdn.digitaloceanspaces.com/motionsite/blue-light-glow.mp4" type="video/mp4">
     </video>
     <div class="video-glow-overlay"></div>
     <div class="video-flare"></div>
     <div class="video-overlay"></div>
   </div>
-
   <main class="relative z-10 text-center flex flex-col items-center max-w-4xl px-6">
     <h1 class="text-5xl sm:text-7xl md:text-8xl font-extrabold tracking-tight text-white mb-6 leading-[1.1] text-glow">
       Motion Vision EDU
     </h1>
-
     <p class="text-base sm:text-lg md:text-xl text-slate-300 font-normal mb-10 leading-relaxed text-glow max-w-2xl">
       MotionVision EDU es un laboratorio virtual de física que analiza el movimiento en tiempo real con tu cámara.
       Selecciona un objeto de color, muévelo y mide su trayectoria, velocidad y posición al instante sin instalar nada.
     </p>
-
-    <button id="getStartedBtn"
-      class="group relative inline-flex items-center justify-center px-9 py-4 text-lg font-bold text-black bg-white rounded-full transition-all duration-300 hover:scale-105 shadow-[0_0_35px_rgba(255,255,255,0.8)] hover:shadow-[0_0_55px_rgba(0,240,255,0.9)]"
-      disabled>
+    <button id="getStartedBtn" class="group relative inline-flex items-center justify-center px-9 py-4 text-lg font-bold text-black bg-white rounded-full transition-all duration-300 hover:scale-105 shadow-[0_0_35px_rgba(255,255,255,0.8)] hover:shadow-[0_0_55px_rgba(0,240,255,0.9)]">
       <span class="relative z-10 flex items-center gap-2">
         <span id="btnSpinner" class="spinner" style="display:none"></span>
-        <span id="btnText">Cargando sonidos...</span>
-        <svg class="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"
-          fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-            d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+        <span id="btnText">Get Started</span>
+        <svg class="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
         </svg>
       </span>
     </button>
   </main>
 </div>
 
-<!-- ==================== APLICACIÓN ==================== -->
+<!-- APP -->
 <div id="app-content">
-
 <header>
   <div>
     <h1 class="text-white font-extrabold">MotionVision EDU</h1>
@@ -260,7 +245,6 @@ input[type=number],select{
 <main>
 <div class="grid-app">
 
-<!-- CÁMARA -->
 <section class="card">
   <div class="cardHead">
     <h2>Cámara y trayectoria</h2>
@@ -269,32 +253,27 @@ input[type=number],select{
       <span id="statusText">Cámara apagada</span>
     </div>
   </div>
-
   <div class="stage">
     <canvas id="view" width="640" height="480"></canvas>
     <video id="video" autoplay playsinline muted></video>
-    <canvas id="process" width="320" height="240"></canvas>
+    <canvas id="process" width="160" height="120"></canvas>
     <div class="hint">
       1) Enciende la cámara · 2) Haz clic sobre el objeto de color ·
       3) Pulsa “Iniciar experimento” · 4) Mueve el objeto.
     </div>
   </div>
-
   <div class="controls">
     <button id="cameraBtn" class="btn-app">Encender cámara</button>
     <button id="startBtn" class="btn-app secondary" disabled>Iniciar experimento</button>
     <button id="resetBtn" class="btn-app secondary">Reiniciar datos</button>
     <button id="csvBtn" class="btn-app secondary" disabled>Descargar CSV</button>
+    <button id="switchCamBtn" class="btn-app secondary" style="grid-column:span 2">Cambiar cámara</button>
   </div>
 </section>
 
-<!-- PANEL LATERAL -->
 <aside class="side">
-
-<!-- MEDICIONES -->
 <section class="card">
   <div class="cardHead"><h2>Mediciones</h2></div>
-
   <div class="metrics">
     <div class="metric"><span>Tiempo</span><strong id="timeValue">0.00 s</strong></div>
     <div class="metric"><span>Velocidad</span><strong id="speedValue">0.0 px/s</strong></div>
@@ -305,51 +284,42 @@ input[type=number],select{
   </div>
 </section>
 
-<!-- SEGUIMIENTO -->
 <section class="card">
   <div class="cardHead"><h2>Seguimiento</h2></div>
-
   <div class="settings">
     <div class="colorRow">
       <div id="colorChip"></div>
       <span id="colorText">Color objetivo: rojo inicial</span>
     </div>
-
     <label>
-      Sensibilidad de color <span id="thresholdLabel">70</span>
-      <input id="threshold" type="range" min="20" max="160" value="70">
+      Tolerancia de color (HSV) <span id="thresholdLabel">30</span>
+      <input id="threshold" type="range" min="10" max="100" value="30">
     </label>
-
     <label>
       Separación de muestreo
       <select id="sampleStep">
         <option value="2">Alta precisión</option>
-        <option value="4" selected>Equilibrada</option>
-        <option value="6">Más rápida</option>
+        <option value="3" selected>Equilibrada</option>
+        <option value="5">Más rápida</option>
       </select>
     </label>
-
     <label>
       Escala opcional (cm por píxel)
-      <input id="scaleInput" type="number" min="0" step="0.001"
-        value="0" placeholder="Ej.: 0.10">
+      <input id="scaleInput" type="number" min="0" step="0.001" value="0" placeholder="Ej.: 0.10">
     </label>
   </div>
-
   <div class="footerNote">
     Si dejas la escala en 0, el sistema trabaja en píxeles. Si conoces una relación
     cm/píxel, puede mostrar una velocidad aproximada en cm/s.
   </div>
 </section>
 
-<!-- GRÁFICA -->
 <section class="card">
   <div class="cardHead"><h2>Velocidad vs. tiempo</h2></div>
   <div class="chartWrap">
     <canvas id="chart" width="500" height="180"></canvas>
   </div>
 </section>
-
 </aside>
 </div>
 </main>
@@ -357,787 +327,548 @@ input[type=number],select{
 
 <script>
 /* ============================================================
-   AUDIO
+   AUDIO con archivos locales (click.mp3 y transicion.mp3)
 ============================================================ */
-
 const clickAudio = new Audio('click.mp3');
 const transicionAudio = new Audio('transicion.mp3');
 
+// Precargar (opcional)
 clickAudio.preload = 'auto';
 transicionAudio.preload = 'auto';
 
-let clickReady = false;
-let transicionReady = false;
-let soundsLoaded = false;
-
-const getStartedBtn = document.getElementById('getStartedBtn');
-const btnText = document.getElementById('btnText');
-const btnSpinner = document.getElementById('btnSpinner');
-
-clickAudio.addEventListener('canplaythrough',()=>{
-  clickReady=true;
-  checkReady();
-});
-
-transicionAudio.addEventListener('canplaythrough',()=>{
-  transicionReady=true;
-  checkReady();
-});
-
-function checkReady(){
-  if(clickReady&&transicionReady){
-    soundsLoaded=true;
-    getStartedBtn.disabled=false;
-    btnText.textContent='Get Started';
-    btnSpinner.style.display='none';
-  }else{
-    btnSpinner.style.display='inline-block';
-    btnText.textContent='Cargando sonidos...';
-    getStartedBtn.disabled=true;
-  }
+function playClick() {
+  try {
+    clickAudio.currentTime = 0;
+    clickAudio.play().catch(() => {});
+  } catch(e) {}
 }
 
-clickAudio.load();
-transicionAudio.load();
-
-setTimeout(()=>{
-  if(!soundsLoaded){
-    clickAudio.load();
-    transicionAudio.load();
-
-    setTimeout(()=>{
-      if(!soundsLoaded){
-        getStartedBtn.disabled=false;
-        btnText.textContent='Get Started';
-        btnSpinner.style.display='none';
-      }
-    },2000);
-  }
-},5000);
-
-/* SONIDO PARA TODOS LOS BOTONES */
-function playClick(){
-  try{
-    clickAudio.currentTime=0;
-    clickAudio.play().catch(()=>{});
-  }catch(e){}
+function playTransition() {
+  try {
+    transicionAudio.currentTime = 0;
+    transicionAudio.play().catch(() => {});
+  } catch(e) {}
 }
 
-document.querySelectorAll('button').forEach(button=>{
-  button.addEventListener('click',playClick);
+// Asignar sonido a todos los botones (incluidos los de la app)
+document.querySelectorAll('button').forEach(btn => {
+  btn.addEventListener('click', playClick);
 });
 
 /* ============================================================
    BOTÓN GET STARTED
 ============================================================ */
+const getStartedBtn = document.getElementById('getStartedBtn');
+const btnText = document.getElementById('btnText');
+const btnSpinner = document.getElementById('btnSpinner');
 
-getStartedBtn.addEventListener('click',()=>{
-  if(!clickReady){
-    clickAudio.load();
-    clickAudio.play().catch(()=>{});
-  }
+// Habilitamos el botón inmediatamente (sin esperar audios)
+getStartedBtn.disabled = false;
+btnText.textContent = 'Get Started';
+btnSpinner.style.display = 'none';
 
+getStartedBtn.addEventListener('click', ()=>{
+  playTransition(); // sonido de transición
+  const landing = document.getElementById('landing-screen');
+  const app = document.getElementById('app-content');
+  landing.style.transition = 'opacity .8s ease-out';
+  landing.style.opacity = '0';
   setTimeout(()=>{
-    if(transicionReady){
-      transicionAudio.currentTime=0;
-      transicionAudio.play().catch(()=>{});
-    }else{
-      transicionAudio.load();
-      transicionAudio.play().catch(()=>{});
-    }
-  },300);
-
-  const landingScreen=document.getElementById('landing-screen');
-  const appContent=document.getElementById('app-content');
-
-  landingScreen.style.transition='opacity .8s ease-out';
-  landingScreen.style.opacity='0';
-
-  setTimeout(()=>{
-    landingScreen.style.display='none';
-    appContent.classList.add('visible');
-  },800);
+    landing.style.display = 'none';
+    app.classList.add('visible');
+  }, 800);
 });
 
 /* ============================================================
-   AURORA Y FONDO ESPACIAL
+   AURORA Y FONDO (sin cambios)
 ============================================================ */
-
-const auroraGlow=document.getElementById('aurora-glow');
-
-window.addEventListener('mousemove',e=>{
-  auroraGlow.style.left=`${e.clientX}px`;
-  auroraGlow.style.top=`${e.clientY}px`;
+const auroraGlow = document.getElementById('aurora-glow');
+window.addEventListener('mousemove', e=>{
+  auroraGlow.style.left = e.clientX + 'px';
+  auroraGlow.style.top = e.clientY + 'px';
 });
 
-const cosmicCanvas=document.getElementById('cosmic-bg');
-const cctxBg=cosmicCanvas.getContext('2d');
-const landingScreen=document.getElementById('landing-screen');
-const appContent=document.getElementById('app-content');
-
-let bgWidth,bgHeight;
-
-function resizeBg(){
-  const dpr=window.devicePixelRatio||1;
-  bgWidth=window.innerWidth;
-  bgHeight=window.innerHeight;
-  cosmicCanvas.width=bgWidth*dpr;
-  cosmicCanvas.height=bgHeight*dpr;
+const cosmicCanvas = document.getElementById('cosmic-bg');
+const cctxBg = cosmicCanvas.getContext('2d');
+let bgWidth, bgHeight;
+function resizeBg() {
+  const dpr = window.devicePixelRatio || 1;
+  bgWidth = window.innerWidth;
+  bgHeight = window.innerHeight;
+  cosmicCanvas.width = bgWidth * dpr;
+  cosmicCanvas.height = bgHeight * dpr;
   cctxBg.setTransform(dpr,0,0,dpr,0,0);
 }
-
-window.addEventListener('resize',resizeBg);
+window.addEventListener('resize', resizeBg);
 resizeBg();
 
-const cyanBluePalette=[
-  'rgba(0,240,255,',
-  'rgba(59,130,246,',
-  'rgba(14,165,233,',
-  'rgba(147,197,253,',
-  'rgba(2,132,199,'
-];
-
-const supernova={
-  x:bgWidth/2,y:bgHeight/2,radius:0,alpha:1,active:true,particles:[]
-};
-
-for(let i=0;i<600;i++){
-  const angle=Math.random()*Math.PI*2;
-  const speed=Math.random()*12+3;
-
+const cyanPalette = ['rgba(0,240,255,', 'rgba(59,130,246,', 'rgba(14,165,233,', 'rgba(147,197,253,', 'rgba(2,132,199,'];
+const supernova = { x: bgWidth/2, y: bgHeight/2, radius: 0, alpha: 1, active: true, particles: [] };
+for (let i=0; i<600; i++) {
+  const angle = Math.random()*Math.PI*2;
+  const speed = Math.random()*12+3;
   supernova.particles.push({
-    x:bgWidth/2,y:bgHeight/2,
-    vx:Math.cos(angle)*speed,
-    vy:Math.sin(angle)*speed,
-    size:Math.random()*4+1.5,
-    colorBase:cyanBluePalette[Math.floor(Math.random()*cyanBluePalette.length)],
-    alpha:1
+    x: bgWidth/2, y: bgHeight/2,
+    vx: Math.cos(angle)*speed, vy: Math.sin(angle)*speed,
+    size: Math.random()*4+1.5,
+    colorBase: cyanPalette[Math.floor(Math.random()*cyanPalette.length)],
+    alpha: 1
   });
 }
+const landingStars = [];
+for (let i=0; i<350; i++) landingStars.push({ x: Math.random()*bgWidth, y: Math.random()*bgHeight, size: Math.random()*2.8+.8, speed: Math.random()*2.5+1, alpha: Math.random()*.9+.3 });
+const appStars = [];
+for (let i=0; i<400; i++) appStars.push({ x: Math.random()*bgWidth, y: Math.random()*bgHeight, size: Math.random()*2.2+.5, alpha: Math.random()*.85+.15, speed: Math.random()*1.2+.4, color: cyanPalette[Math.floor(Math.random()*cyanPalette.length)] });
 
-const landingWhiteStars=[];
-for(let i=0;i<350;i++){
-  landingWhiteStars.push({
-    x:Math.random()*bgWidth,
-    y:Math.random()*bgHeight,
-    size:Math.random()*2.8+.8,
-    speed:Math.random()*2.5+1,
-    alpha:Math.random()*.9+.3
-  });
-}
-
-const appStars=[];
-for(let i=0;i<400;i++){
-  appStars.push({
-    x:Math.random()*bgWidth,
-    y:Math.random()*bgHeight,
-    size:Math.random()*2.2+.5,
-    alpha:Math.random()*.85+.15,
-    speed:Math.random()*1.2+.4,
-    color:cyanBluePalette[Math.floor(Math.random()*cyanBluePalette.length)]
-  });
-}
-
-function renderCosmos(){
+function renderCosmos() {
   cctxBg.clearRect(0,0,bgWidth,bgHeight);
+  const landingVisible = document.getElementById('landing-screen').classList.contains('visible');
+  const appVisible = document.getElementById('app-content').classList.contains('visible');
 
-  if(supernova.active){
-    supernova.radius+=14;
-    supernova.alpha-=.008;
-
-    const g=cctxBg.createRadialGradient(
-      bgWidth/2,bgHeight/2,0,
-      bgWidth/2,bgHeight/2,Math.max(1,supernova.radius)
-    );
-
-    g.addColorStop(0,`rgba(0,240,255,${Math.max(0,supernova.alpha)})`);
-    g.addColorStop(.35,`rgba(59,130,246,${Math.max(0,supernova.alpha*.8)})`);
-    g.addColorStop(.7,`rgba(14,116,144,${Math.max(0,supernova.alpha*.3)})`);
-    g.addColorStop(1,'rgba(0,0,0,0)');
-
-    cctxBg.fillStyle=g;
+  if (supernova.active) {
+    supernova.radius += 14;
+    supernova.alpha -= 0.008;
+    const g = cctxBg.createRadialGradient(bgWidth/2, bgHeight/2, 0, bgWidth/2, bgHeight/2, Math.max(1, supernova.radius));
+    g.addColorStop(0, `rgba(0,240,255,${Math.max(0, supernova.alpha)})`);
+    g.addColorStop(.35, `rgba(59,130,246,${Math.max(0, supernova.alpha*.8)})`);
+    g.addColorStop(.7, `rgba(14,116,144,${Math.max(0, supernova.alpha*.3)})`);
+    g.addColorStop(1, 'rgba(0,0,0,0)');
+    cctxBg.fillStyle = g;
     cctxBg.beginPath();
-    cctxBg.arc(bgWidth/2,bgHeight/2,Math.max(1,supernova.radius),0,Math.PI*2);
+    cctxBg.arc(bgWidth/2, bgHeight/2, Math.max(1, supernova.radius), 0, Math.PI*2);
     cctxBg.fill();
-
     supernova.particles.forEach(p=>{
-      p.x+=p.vx;
-      p.y+=p.vy;
-      p.alpha-=.007;
-
-      if(p.alpha>0){
-        cctxBg.fillStyle=`${p.colorBase}${Math.max(0,p.alpha)})`;
+      p.x += p.vx; p.y += p.vy; p.alpha -= 0.007;
+      if (p.alpha > 0) {
+        cctxBg.fillStyle = `${p.colorBase}${Math.max(0,p.alpha)})`;
         cctxBg.beginPath();
-        cctxBg.arc(p.x,p.y,p.size,0,Math.PI*2);
+        cctxBg.arc(p.x, p.y, p.size, 0, Math.PI*2);
         cctxBg.fill();
       }
     });
-
-    if(supernova.alpha<=0){
-      supernova.active=false;
-      landingScreen.classList.add('visible');
-    }
+    if (supernova.alpha <= 0) supernova.active = false;
   }
 
-  if(landingScreen.classList.contains('visible')&&!appContent.classList.contains('visible')){
-    landingWhiteStars.forEach(star=>{
-      star.y+=star.speed;
-      if(star.y>bgHeight){
-        star.y=0;
-        star.x=Math.random()*bgWidth;
-      }
-
-      cctxBg.fillStyle=`rgba(255,255,255,${star.alpha})`;
+  if (landingVisible && !appVisible) {
+    landingStars.forEach(star=>{
+      star.y += star.speed;
+      if (star.y > bgHeight) { star.y = 0; star.x = Math.random()*bgWidth; }
+      cctxBg.fillStyle = `rgba(255,255,255,${star.alpha})`;
       cctxBg.beginPath();
-      cctxBg.arc(star.x,star.y,star.size,0,Math.PI*2);
+      cctxBg.arc(star.x, star.y, star.size, 0, Math.PI*2);
       cctxBg.fill();
     });
   }
-
-  if(appContent.classList.contains('visible')){
+  if (appVisible) {
     appStars.forEach(star=>{
-      star.y-=star.speed;
-
-      if(star.y<0){
-        star.y=bgHeight;
-        star.x=Math.random()*bgWidth;
-      }
-
-      cctxBg.fillStyle=`${star.color}${star.alpha})`;
+      star.y -= star.speed;
+      if (star.y < 0) { star.y = bgHeight; star.x = Math.random()*bgWidth; }
+      cctxBg.fillStyle = `${star.color}${star.alpha})`;
       cctxBg.beginPath();
-      cctxBg.arc(star.x,star.y,star.size,0,Math.PI*2);
+      cctxBg.arc(star.x, star.y, star.size, 0, Math.PI*2);
       cctxBg.fill();
     });
   }
-
   requestAnimationFrame(renderCosmos);
 }
-
 renderCosmos();
 
 /* ============================================================
-   CÁMARA Y EXPERIMENTO
+   CÁMARA Y EXPERIMENTO (con mejoras HSV, rendimiento, cambio de cámara)
 ============================================================ */
+const video = document.getElementById('video');
+const processCanvas = document.getElementById('process');
+const pctx = processCanvas.getContext('2d', { willReadFrequently: true });
+const view = document.getElementById('view');
+const vctx = view.getContext('2d');
+const chart = document.getElementById('chart');
+const cctx = chart.getContext('2d');
 
-const video=document.getElementById('video');
-const processCanvas=document.getElementById('process');
-const pctx=processCanvas.getContext('2d',{willReadFrequently:true});
-const view=document.getElementById('view');
-const vctx=view.getContext('2d');
-const chart=document.getElementById('chart');
-const cctx=chart.getContext('2d');
+const cameraBtn = document.getElementById('cameraBtn');
+const startBtn = document.getElementById('startBtn');
+const resetBtn = document.getElementById('resetBtn');
+const csvBtn = document.getElementById('csvBtn');
+const switchCamBtn = document.getElementById('switchCamBtn');
+const threshold = document.getElementById('threshold');
+const thresholdLabel = document.getElementById('thresholdLabel');
+const sampleStep = document.getElementById('sampleStep');
+const scaleInput = document.getElementById('scaleInput');
+const colorChip = document.getElementById('colorChip');
+const colorText = document.getElementById('colorText');
+const statusDot = document.getElementById('statusDot');
+const statusText = document.getElementById('statusText');
 
-const cameraBtn=document.getElementById('cameraBtn');
-const startBtn=document.getElementById('startBtn');
-const resetBtn=document.getElementById('resetBtn');
-const csvBtn=document.getElementById('csvBtn');
-const threshold=document.getElementById('threshold');
-const thresholdLabel=document.getElementById('thresholdLabel');
-const sampleStep=document.getElementById('sampleStep');
-const scaleInput=document.getElementById('scaleInput');
-const colorChip=document.getElementById('colorChip');
-const colorText=document.getElementById('colorText');
-const statusDot=document.getElementById('statusDot');
-const statusText=document.getElementById('statusText');
+const timeValue = document.getElementById('timeValue');
+const speedValue = document.getElementById('speedValue');
+const xValue = document.getElementById('xValue');
+const yValue = document.getElementById('yValue');
+const distanceValue = document.getElementById('distanceValue');
+const samplesValue = document.getElementById('samplesValue');
 
-const timeValue=document.getElementById('timeValue');
-const speedValue=document.getElementById('speedValue');
-const xValue=document.getElementById('xValue');
-const yValue=document.getElementById('yValue');
-const distanceValue=document.getElementById('distanceValue');
-const samplesValue=document.getElementById('samplesValue');
+let stream = null;
+let cameraOn = false;
+let facingMode = 'user'; // 'user' o 'environment'
+let targetHSV = { h: 0, s: 0, v: 0 };
+let trackingPoint = null;
+let trail = [];
+let experimentRunning = false;
+let experimentStart = 0;
+let lastSampleTime = 0;
+let lastSamplePoint = null;
+let totalDistancePx = 0;
+let records = [];
+let latestSpeedPx = 0;
+let lastProcessTime = 0;
+const PROCESS_INTERVAL = 33; // ~30 fps
 
-let stream=null;
-let cameraOn=false;
-let target={r:239,g:68,b:68};
-let trackingPoint=null;
-let trail=[];
-let experimentRunning=false;
-let experimentStart=0;
-let lastSampleTime=0;
-let lastSamplePoint=null;
-let totalDistancePx=0;
-let records=[];
-let latestSpeedPx=0;
-
-threshold.addEventListener('input',()=>{
-  thresholdLabel.textContent=threshold.value;
+threshold.addEventListener('input', ()=>{
+  thresholdLabel.textContent = threshold.value;
 });
 
-function setStatus(text,ok=false){
-  statusText.textContent=text;
-  statusDot.classList.toggle('ok',ok);
+function setStatus(text, ok=false) {
+  statusText.textContent = text;
+  statusDot.classList.toggle('ok', ok);
 }
 
-/* CÁMARA */
-cameraBtn.addEventListener('click',async()=>{
-  if(cameraOn){
-    stopCamera();
+/* --- Conversión RGB a HSV --- */
+function rgbToHsv(r, g, b) {
+  r /= 255; g /= 255; b /= 255;
+  const max = Math.max(r,g,b), min = Math.min(r,g,b);
+  let h, s, v = max;
+  const d = max - min;
+  s = max === 0 ? 0 : d / max;
+  if (max === min) h = 0;
+  else {
+    switch (max) {
+      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+      case g: h = (b - r) / d + 2; break;
+      case b: h = (r - g) / d + 4; break;
+    }
+    h /= 6;
+  }
+  return { h, s, v };
+}
+
+/* --- Selección de color (promedio vecindad) --- */
+view.addEventListener('click', e => {
+  if (!cameraOn) return;
+  const rect = view.getBoundingClientRect();
+  const x = Math.round((e.clientX - rect.left) * view.width / rect.width);
+  const y = Math.round((e.clientY - rect.top) * view.height / rect.height);
+  const px = Math.max(0, Math.min(processCanvas.width-1, Math.round(x * processCanvas.width / view.width)));
+  const py = Math.max(0, Math.min(processCanvas.height-1, Math.round(y * processCanvas.height / view.height)));
+
+  // Promediar 5x5
+  const size = 2;
+  let sumR=0, sumG=0, sumB=0, count=0;
+  for (let dy = -size; dy <= size; dy++) {
+    for (let dx = -size; dx <= size; dx++) {
+      const cx = Math.min(processCanvas.width-1, Math.max(0, px+dx));
+      const cy = Math.min(processCanvas.height-1, Math.max(0, py+dy));
+      const data = pctx.getImageData(cx, cy, 1, 1).data;
+      sumR += data[0]; sumG += data[1]; sumB += data[2];
+      count++;
+    }
+  }
+  const avgR = sumR/count, avgG = sumG/count, avgB = sumB/count;
+  const hsv = rgbToHsv(avgR, avgG, avgB);
+  targetHSV = hsv;
+  colorChip.style.background = `rgb(${Math.round(avgR)},${Math.round(avgG)},${Math.round(avgB)})`;
+  colorText.textContent = `Color objetivo: H=${(hsv.h*360).toFixed(0)}° S=${(hsv.s*100).toFixed(0)}% V=${(hsv.v*100).toFixed(0)}%`;
+  setStatus('Color seleccionado · listo para seguir', true);
+});
+
+/* --- Detección en HSV --- */
+function findTargetHSV() {
+  const w = processCanvas.width, h = processCanvas.height;
+  const img = pctx.getImageData(0,0,w,h);
+  const data = img.data;
+  const tol = Number(threshold.value) / 100;
+  const step = Number(sampleStep.value);
+  let sumX=0, sumY=0, count=0;
+
+  const hTarget = targetHSV.h, sTarget = targetHSV.s, vTarget = targetHSV.v;
+  const hTol = tol * 0.5;
+  const svTol = tol * 0.4;
+
+  for (let y=0; y<h; y+=step) {
+    for (let x=0; x<w; x+=step) {
+      const i = (y*w + x) * 4;
+      const r = data[i], g = data[i+1], b = data[i+2];
+      const hsv = rgbToHsv(r,g,b);
+      let dh = Math.abs(hsv.h - hTarget);
+      if (dh > 0.5) dh = 1 - dh;
+      if (dh <= hTol && Math.abs(hsv.s - sTarget) <= svTol && Math.abs(hsv.v - vTarget) <= svTol) {
+        sumX += x; sumY += y; count++;
+      }
+    }
+  }
+  if (count < 5) return null;
+  return { x: sumX/count, y: sumY/count, count };
+}
+
+/* --- Cámara --- */
+async function startCamera(facing = 'user') {
+  try {
+    if (stream) {
+      stream.getTracks().forEach(t => t.stop());
+      stream = null;
+    }
+    const constraints = {
+      video: {
+        facingMode: facing,
+        width: { ideal: 640 },
+        height: { ideal: 480 }
+      },
+      audio: false
+    };
+    stream = await navigator.mediaDevices.getUserMedia(constraints);
+    video.srcObject = stream;
+    await video.play();
+    cameraOn = true;
+    cameraBtn.textContent = 'Apagar cámara';
+    startBtn.disabled = false;
+    setStatus('Cámara lista · selecciona un color', true);
+    requestAnimationFrame(loop);
+  } catch(err) {
+    console.error(err);
+    alert('No se pudo abrir la cámara. Asegúrate de otorgar los permisos.');
+  }
+}
+
+function stopCamera() {
+  if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
+  cameraOn = false;
+  experimentRunning = false;
+  cameraBtn.textContent = 'Encender cámara';
+  startBtn.textContent = 'Iniciar experimento';
+  startBtn.disabled = true;
+  setStatus('Cámara apagada', false);
+}
+
+cameraBtn.addEventListener('click', ()=>{
+  if (cameraOn) { stopCamera(); return; }
+  startCamera(facingMode);
+});
+
+switchCamBtn.addEventListener('click', ()=>{
+  if (!cameraOn) {
+    facingMode = (facingMode === 'user') ? 'environment' : 'user';
+    switchCamBtn.textContent = `Cámara ${facingMode === 'user' ? 'frontal' : 'trasera'}`;
     return;
   }
-
-  try{
-    stream=await navigator.mediaDevices.getUserMedia({
-      video:{
-        width:{ideal:1280},
-        height:{ideal:720},
-        facingMode:'user'
-      },
-      audio:false
-    });
-
-    video.srcObject=stream;
-    await video.play();
-
-    cameraOn=true;
-    cameraBtn.textContent='Apagar cámara';
-    startBtn.disabled=false;
-    setStatus('Cámara lista · selecciona un color',true);
-
-    requestAnimationFrame(loop);
-  }catch(err){
-    console.error(err);
-    alert('No se pudo abrir la cámara. Asegúrate de otorgar los permisos en el navegador.');
-  }
+  facingMode = (facingMode === 'user') ? 'environment' : 'user';
+  switchCamBtn.textContent = `Cámara ${facingMode === 'user' ? 'frontal' : 'trasera'}`;
+  stopCamera();
+  setTimeout(() => startCamera(facingMode), 300);
 });
 
-function stopCamera(){
-  if(stream)stream.getTracks().forEach(t=>t.stop());
-
-  stream=null;
-  cameraOn=false;
-  experimentRunning=false;
-  cameraBtn.textContent='Encender cámara';
-  startBtn.textContent='Iniciar experimento';
-  startBtn.disabled=true;
-  setStatus('Cámara apagada',false);
-}
-
-/* SELECCIÓN DE COLOR */
-view.addEventListener('click',e=>{
-  if(!cameraOn)return;
-
-  const rect=view.getBoundingClientRect();
-
-  const x=Math.round(
-    (e.clientX-rect.left)*view.width/rect.width
-  );
-
-  const y=Math.round(
-    (e.clientY-rect.top)*view.height/rect.height
-  );
-
-  const px=Math.max(
-    0,
-    Math.min(
-      processCanvas.width-1,
-      Math.round(x*processCanvas.width/view.width)
-    )
-  );
-
-  const py=Math.max(
-    0,
-    Math.min(
-      processCanvas.height-1,
-      Math.round(y*processCanvas.height/view.height)
-    )
-  );
-
-  const data=pctx.getImageData(px,py,1,1).data;
-
-  target={
-    r:data[0],
-    g:data[1],
-    b:data[2]
-  };
-
-  colorChip.style.background=
-    `rgb(${target.r},${target.g},${target.b})`;
-
-  colorText.textContent=
-    `Color objetivo: rgb(${target.r}, ${target.g}, ${target.b})`;
-
-  setStatus('Color seleccionado · listo para seguir',true);
-});
-
-/* INICIAR / PAUSAR */
-startBtn.addEventListener('click',()=>{
-  if(!cameraOn)return;
-
-  experimentRunning=!experimentRunning;
-
-  if(experimentRunning){
+/* --- Iniciar / Pausar --- */
+startBtn.addEventListener('click', ()=>{
+  if (!cameraOn) return;
+  experimentRunning = !experimentRunning;
+  if (experimentRunning) {
     resetExperiment();
-    experimentRunning=true;
-    experimentStart=performance.now();
-    lastSampleTime=0;
-
-    startBtn.textContent='Pausar experimento';
-    setStatus('Experimento en curso',true);
-  }else{
-    startBtn.textContent='Continuar experimento';
-    setStatus('Experimento pausado',true);
+    experimentRunning = true;
+    experimentStart = performance.now();
+    lastSampleTime = 0;
+    startBtn.textContent = 'Pausar experimento';
+    setStatus('Experimento en curso', true);
+  } else {
+    startBtn.textContent = 'Continuar experimento';
+    setStatus('Experimento pausado', true);
   }
 });
 
-/* REINICIAR */
-resetBtn.addEventListener('click',()=>{
+resetBtn.addEventListener('click', ()=>{
   resetExperiment();
-  experimentRunning=false;
-  startBtn.textContent='Iniciar experimento';
-
-  if(cameraOn)setStatus('Datos reiniciados',true);
+  experimentRunning = false;
+  startBtn.textContent = 'Iniciar experimento';
+  if (cameraOn) setStatus('Datos reiniciados', true);
 });
 
-function resetExperiment(){
-  trail=[];
-  records=[];
-  totalDistancePx=0;
-  lastSamplePoint=null;
-  lastSampleTime=0;
-  latestSpeedPx=0;
-
-  timeValue.textContent='0.00 s';
-  speedValue.textContent='0.0 px/s';
-  xValue.textContent='—';
-  yValue.textContent='—';
-  distanceValue.textContent='0 px';
-  samplesValue.textContent='0';
-
-  csvBtn.disabled=true;
+function resetExperiment() {
+  trail = [];
+  records = [];
+  totalDistancePx = 0;
+  lastSamplePoint = null;
+  lastSampleTime = 0;
+  latestSpeedPx = 0;
+  timeValue.textContent = '0.00 s';
+  speedValue.textContent = '0.0 px/s';
+  xValue.textContent = '—';
+  yValue.textContent = '—';
+  distanceValue.textContent = '0 px';
+  samplesValue.textContent = '0';
+  csvBtn.disabled = true;
   drawChart();
 }
 
-/* ============================================================
-   CSV
-============================================================ */
-
-csvBtn.addEventListener('click',()=>{
-  if(!records.length)return;
-
-  const scale=Number(scaleInput.value)||0;
-
-  const headers=[
-    'tiempo_s','x_px','y_px','velocidad_px_s','recorrido_px',
-    'x_cm','y_cm','velocidad_cm_s','recorrido_cm'
-  ];
-
-  const lines=[headers.join(',')];
-
-  for(const r of records){
-    const xcm=scale?(r.x*scale).toFixed(3):'';
-    const ycm=scale?(r.y*scale).toFixed(3):'';
-    const vcm=scale?(r.speed*scale).toFixed(3):'';
-    const dcm=scale?(r.distance*scale).toFixed(3):'';
-
-    lines.push([
-      r.t.toFixed(3),
-      r.x.toFixed(1),
-      r.y.toFixed(1),
-      r.speed.toFixed(2),
-      r.distance.toFixed(2),
-      xcm,ycm,vcm,dcm
-    ].join(','));
+/* --- CSV --- */
+csvBtn.addEventListener('click', ()=>{
+  if (!records.length) return;
+  const scale = Number(scaleInput.value) || 0;
+  const headers = ['tiempo_s','x_px','y_px','velocidad_px_s','recorrido_px','x_cm','y_cm','velocidad_cm_s','recorrido_cm'];
+  const lines = [headers.join(',')];
+  for (const r of records) {
+    const xcm = scale ? (r.x*scale).toFixed(3) : '';
+    const ycm = scale ? (r.y*scale).toFixed(3) : '';
+    const vcm = scale ? (r.speed*scale).toFixed(3) : '';
+    const dcm = scale ? (r.distance*scale).toFixed(3) : '';
+    lines.push([r.t.toFixed(3), r.x.toFixed(1), r.y.toFixed(1), r.speed.toFixed(2), r.distance.toFixed(2), xcm,ycm,vcm,dcm].join(','));
   }
-
-  const blob=new Blob(
-    [lines.join('\n')],
-    {type:'text/csv;charset=utf-8'}
-  );
-
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-
-  a.href=url;
-  a.download=
-    `motionvision_${new Date().toISOString().slice(0,19).replace(/[:T]/g,'-')}.csv`;
-
+  const blob = new Blob([lines.join('\n')], {type:'text/csv;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `motionvision_${new Date().toISOString().slice(0,19).replace(/[:T]/g,'-')}.csv`;
   a.click();
   URL.revokeObjectURL(url);
 });
 
-/* ============================================================
-   DETECCIÓN
-============================================================ */
-
-function drawMirrored(ctx,canvas){
-  ctx.save();
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  ctx.translate(canvas.width,0);
-  ctx.scale(-1,1);
-  ctx.drawImage(video,0,0,canvas.width,canvas.height);
-  ctx.restore();
-}
-
-function findTarget(){
-  const w=processCanvas.width;
-  const h=processCanvas.height;
-  const img=pctx.getImageData(0,0,w,h);
-  const data=img.data;
-
-  const th=Number(threshold.value);
-  const th2=th*th;
-  const step=Number(sampleStep.value);
-
-  let sumX=0,sumY=0,count=0;
-
-  for(let y=0;y<h;y+=step){
-    for(let x=0;x<w;x+=step){
-      const i=(y*w+x)*4;
-
-      const dr=data[i]-target.r;
-      const dg=data[i+1]-target.g;
-      const db=data[i+2]-target.b;
-
-      const dist2=dr*dr+dg*dg+db*db;
-
-      if(dist2<th2){
-        sumX+=x;
-        sumY+=y;
-        count++;
-      }
-    }
-  }
-
-  if(count<8)return null;
-
-  return{
-    x:sumX/count,
-    y:sumY/count,
-    count
-  };
-}
-
-/* ============================================================
-   MUESTREO
-============================================================ */
-
-function sample(point,now){
-  if(!experimentRunning||!point)return;
-
-  if(!lastSampleTime){
-    lastSampleTime=now;
-    lastSamplePoint={...point};
+/* --- Muestreo --- */
+function sample(point, now) {
+  if (!experimentRunning || !point) return;
+  if (!lastSampleTime) {
+    lastSampleTime = now;
+    lastSamplePoint = { ...point };
     return;
   }
-
-  const dtMs=now-lastSampleTime;
-  if(dtMs<80)return;
-
-  const dx=point.x-lastSamplePoint.x;
-  const dy=point.y-lastSamplePoint.y;
-  const d=Math.hypot(dx,dy);
-  const dt=dtMs/1000;
-
-  latestSpeedPx=d/dt;
-  totalDistancePx+=d;
-
-  const t=(now-experimentStart)/1000;
-
-  records.push({
-    t,
-    x:point.x,
-    y:point.y,
-    speed:latestSpeedPx,
-    distance:totalDistancePx
-  });
-
-  if(records.length>600)records.shift();
-
-  trail.push({
-    x:point.x,
-    y:point.y
-  });
-
-  if(trail.length>180)trail.shift();
-
-  lastSampleTime=now;
-  lastSamplePoint={...point};
-
-  csvBtn.disabled=records.length<2;
-
-  const scale=Number(scaleInput.value)||0;
-
-  timeValue.textContent=`${t.toFixed(2)} s`;
-
-  xValue.textContent=scale
-    ? `${(point.x*scale).toFixed(1)} cm`
-    : `${point.x.toFixed(0)} px`;
-
-  yValue.textContent=scale
-    ? `${(point.y*scale).toFixed(1)} cm`
-    : `${point.y.toFixed(0)} px`;
-
-  speedValue.textContent=scale
-    ? `${(latestSpeedPx*scale).toFixed(1)} cm/s`
-    : `${latestSpeedPx.toFixed(1)} px/s`;
-
-  distanceValue.textContent=scale
-    ? `${(totalDistancePx*scale).toFixed(1)} cm`
-    : `${totalDistancePx.toFixed(0)} px`;
-
-  samplesValue.textContent=String(records.length);
-
+  const dtMs = now - lastSampleTime;
+  if (dtMs < 80) return;
+  const dx = point.x - lastSamplePoint.x;
+  const dy = point.y - lastSamplePoint.y;
+  const d = Math.hypot(dx, dy);
+  const dt = dtMs / 1000;
+  latestSpeedPx = d / dt;
+  totalDistancePx += d;
+  const t = (now - experimentStart) / 1000;
+  records.push({ t, x: point.x, y: point.y, speed: latestSpeedPx, distance: totalDistancePx });
+  if (records.length > 600) records.shift();
+  trail.push({ x: point.x, y: point.y });
+  if (trail.length > 180) trail.shift();
+  lastSampleTime = now;
+  lastSamplePoint = { ...point };
+  csvBtn.disabled = records.length < 2;
+  const scale = Number(scaleInput.value) || 0;
+  timeValue.textContent = `${t.toFixed(2)} s`;
+  xValue.textContent = scale ? `${(point.x*scale).toFixed(1)} cm` : `${point.x.toFixed(0)} px`;
+  yValue.textContent = scale ? `${(point.y*scale).toFixed(1)} cm` : `${point.y.toFixed(0)} px`;
+  speedValue.textContent = scale ? `${(latestSpeedPx*scale).toFixed(1)} cm/s` : `${latestSpeedPx.toFixed(1)} px/s`;
+  distanceValue.textContent = scale ? `${(totalDistancePx*scale).toFixed(1)} cm` : `${totalDistancePx.toFixed(0)} px`;
+  samplesValue.textContent = String(records.length);
   drawChart();
 }
 
-/* ============================================================
-   TRAZADO
-============================================================ */
-
-function drawOverlay(point){
-  if(trail.length>1){
+/* --- Dibujar overlay --- */
+function drawOverlay(point) {
+  if (trail.length > 1) {
     vctx.save();
-
-    vctx.lineWidth=4;
-    vctx.lineCap='round';
-    vctx.lineJoin='round';
-    vctx.strokeStyle='#00f0ff';
-    vctx.shadowColor='#00f0ff';
-    vctx.shadowBlur=10;
-
+    vctx.lineWidth = 4;
+    vctx.lineCap = 'round';
+    vctx.lineJoin = 'round';
+    vctx.strokeStyle = '#00f0ff';
+    vctx.shadowColor = '#00f0ff';
+    vctx.shadowBlur = 10;
     vctx.beginPath();
-
-    const s=view.width/processCanvas.width;
-
-    vctx.moveTo(
-      trail[0].x*s,
-      trail[0].y*s
-    );
-
-    for(let i=1;i<trail.length;i++){
-      vctx.lineTo(
-        trail[i].x*s,
-        trail[i].y*s
-      );
-    }
-
+    const s = view.width / processCanvas.width;
+    vctx.moveTo(trail[0].x * s, trail[0].y * s);
+    for (let i=1; i<trail.length; i++) vctx.lineTo(trail[i].x * s, trail[i].y * s);
     vctx.stroke();
     vctx.restore();
   }
-
-  if(point){
-    const sx=point.x*view.width/processCanvas.width;
-    const sy=point.y*view.height/processCanvas.height;
-
+  if (point) {
+    const sx = point.x * view.width / processCanvas.width;
+    const sy = point.y * view.height / processCanvas.height;
     vctx.save();
-
     vctx.beginPath();
-    vctx.arc(sx,sy,14,0,Math.PI*2);
-    vctx.fillStyle='rgba(0,240,255,.25)';
+    vctx.arc(sx, sy, 14, 0, Math.PI*2);
+    vctx.fillStyle = 'rgba(0,240,255,.25)';
     vctx.fill();
-
-    vctx.lineWidth=3;
-    vctx.strokeStyle='#00f0ff';
+    vctx.lineWidth = 3;
+    vctx.strokeStyle = '#00f0ff';
     vctx.stroke();
-
     vctx.beginPath();
-    vctx.arc(sx,sy,4,0,Math.PI*2);
-    vctx.fillStyle='#fff';
+    vctx.arc(sx, sy, 4, 0, Math.PI*2);
+    vctx.fillStyle = '#fff';
     vctx.fill();
-
     vctx.restore();
   }
 }
 
-/* ============================================================
-   GRÁFICA
-============================================================ */
-
-function drawChart(){
-  const w=chart.width;
-  const h=chart.height;
-
+/* --- Gráfica --- */
+function drawChart() {
+  const w = chart.width, h = chart.height;
   cctx.clearRect(0,0,w,h);
-
-  cctx.fillStyle='rgba(4,10,20,.8)';
+  cctx.fillStyle = 'rgba(4,10,20,.8)';
   cctx.fillRect(0,0,w,h);
-
-  cctx.strokeStyle='rgba(0,240,255,.12)';
-  cctx.lineWidth=1;
-
-  for(let i=1;i<5;i++){
-    const y=i*h/5;
-
+  cctx.strokeStyle = 'rgba(0,240,255,.12)';
+  cctx.lineWidth = 1;
+  for (let i=1; i<5; i++) {
+    const y = i*h/5;
     cctx.beginPath();
     cctx.moveTo(0,y);
     cctx.lineTo(w,y);
     cctx.stroke();
   }
-
-  if(records.length<2){
-    cctx.fillStyle='#8fa6bf';
-    cctx.font='14px system-ui';
-    cctx.fillText(
-      'La gráfica aparecerá durante el experimento.',
-      18,30
-    );
+  if (records.length < 2) {
+    cctx.fillStyle = '#8fa6bf';
+    cctx.font = '14px system-ui';
+    cctx.fillText('La gráfica aparecerá durante el experimento.', 18, 30);
     return;
   }
-
-  const subset=records.slice(-120);
-  const maxSpeed=Math.max(
-    20,
-    ...subset.map(r=>r.speed)
-  );
-
-  cctx.strokeStyle='#00f0ff';
-  cctx.lineWidth=3;
+  const subset = records.slice(-120);
+  const maxSpeed = Math.max(20, ...subset.map(r=>r.speed));
+  cctx.strokeStyle = '#00f0ff';
+  cctx.lineWidth = 3;
   cctx.beginPath();
-
   subset.forEach((r,i)=>{
-    const x=i*w/Math.max(1,subset.length-1);
-    const y=h-(r.speed/maxSpeed)*(h-16)-8;
-
-    if(i===0)cctx.moveTo(x,y);
+    const x = i * w / Math.max(1, subset.length-1);
+    const y = h - (r.speed/maxSpeed) * (h-16) - 8;
+    if (i===0) cctx.moveTo(x,y);
     else cctx.lineTo(x,y);
   });
-
   cctx.stroke();
-
-  cctx.fillStyle='#9fb1c7';
-  cctx.font='11px system-ui';
-
-  cctx.fillText(
-    `máx. ${maxSpeed.toFixed(0)} px/s`,
-    10,15
-  );
+  cctx.fillStyle = '#9fb1c7';
+  cctx.font = '11px system-ui';
+  cctx.fillText(`máx. ${maxSpeed.toFixed(0)} px/s`, 10, 15);
 }
 
-/* ============================================================
-   BUCLE DE CÁMARA
-============================================================ */
+/* --- Bucle principal --- */
+function loop(now) {
+  if (!cameraOn) return;
+  if (now - lastProcessTime >= PROCESS_INTERVAL) {
+    lastProcessTime = now;
+    if (video.readyState >= 2) {
+      // Espejo en ambos canvas
+      pctx.save();
+      pctx.clearRect(0,0,processCanvas.width, processCanvas.height);
+      pctx.translate(processCanvas.width,0);
+      pctx.scale(-1,1);
+      pctx.drawImage(video,0,0,processCanvas.width, processCanvas.height);
+      pctx.restore();
 
-function loop(now){
-  if(!cameraOn)return;
+      vctx.save();
+      vctx.clearRect(0,0,view.width, view.height);
+      vctx.translate(view.width,0);
+      vctx.scale(-1,1);
+      vctx.drawImage(video,0,0,view.width, view.height);
+      vctx.restore();
 
-  if(video.readyState>=2){
-    drawMirrored(pctx,processCanvas);
-    drawMirrored(vctx,view);
-
-    trackingPoint=findTarget();
-
-    sample(trackingPoint,now);
-    drawOverlay(trackingPoint);
-
-    if(!trackingPoint&&experimentRunning){
-      setStatus(
-        'Buscando objeto… aumenta sensibilidad o mejora la luz',
-        false
-      );
-    }else if(experimentRunning){
-      setStatus(
-        'Objeto detectado · experimento en curso',
-        true
-      );
+      trackingPoint = findTargetHSV();
+      sample(trackingPoint, now);
+      drawOverlay(trackingPoint);
+      if (!trackingPoint && experimentRunning) {
+        setStatus('Buscando objeto… ajusta tolerancia o iluminación', false);
+      } else if (experimentRunning) {
+        setStatus('Objeto detectado · experimento en curso', true);
+      }
     }
   }
-
   requestAnimationFrame(loop);
 }
 
 drawChart();
 </script>
-
 </body>
 </html>
